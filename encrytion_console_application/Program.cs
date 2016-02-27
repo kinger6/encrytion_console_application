@@ -11,8 +11,10 @@ namespace CEC
         public static void Main(string[] args)
         {
             // this is how you would create a new program instance in a larger scale project.
-            CECApplication app = new CECApplication(CECApplicationConfig.DEFAULT);
-           
+            CECApplication app = new CECApplication();
+            
+
+
         }
     }
 }

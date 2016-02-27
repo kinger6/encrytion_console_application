@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-using CEC.CommandUtils;
-
 namespace CEC
 {
     
@@ -16,52 +14,6 @@ namespace CEC
     /// </summary>
     internal class CECApplication
     {
-        private static CECApplication _singleton;
-
-        /// <summary>
-        /// User defined variables via command line.
-        /// this will be useful in future when i get command's working i will allow users to refer 
-        /// to these so they can sort of save commands.
-        /// </summary>
-        private Dictionary<string, object> _userDefined = new Dictionary<string, object>();
-
-        /// <summary>
-        /// Add a command or value to the _userDefined Dictionary.
-        /// 
-        /// Reason it returns the value you inputed is because it allows you to do more things in one expression.
-        /// For example with the unity game engine:
-        /// if you wanted a local ref to a componenet you just added you could do
-        /// =====================================================================
-        /// this.controller = gameobject.addComponent<PlayerController>();
-        /// 
-        /// rather then doing 
-        /// 
-        /// gameobject.addComponent<PlayerController>();
-        /// this.controller = gameobject.getComponent<PlayerController>();
-        /// =====================================================================
-        /// 
-        /// See what i mean? its alot more efficient and easy to read.
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="valueOrCommand"></param>
-        internal T AddUserDefined<T>(string key, T valueOrCommand) where T : class
-        {
-            _userDefined.Add(key, valueOrCommand);
-            return valueOrCommand;
-        }
-
-        /// <summary>
-        /// Get from the _user defined dictionary
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        internal T GetUserDefined<T>(string key) where T : class
-        {
-            return _userDefined[key] as T;
-        }
 
         private Thread CECMainThread = null;
 
@@ -78,33 +30,18 @@ namespace CEC
                 _running = value;
             }
         }
-
-        /// <summary>
-        /// get the core singleton of the CECApplication
-        /// </summary>
-        internal static CECApplication singleton
-        {
-            get
-            {
-                return (_singleton != null) ? _singleton : null;
-            }
-            set
-            {
-                Console.WriteLine("Sorry you can only set singleton's privately.");
-            }
-        }
-
+        
         /// <summary>
         /// make a new CEC program with configurations.
         /// </summary>
         /// <param name="config">The configuration for this instance of the application</param>
-        internal CECApplication(CECApplicationConfig config)
+        internal CECApplication()
         {
             // create a new thread and start it
-            (CECMainThread = new Thread(() => Start(config))).Start();
+            (CECMainThread = new Thread(() => ApplicationThreadEntryPoint())).Start();
         }
 
-        private void Start(CECApplicationConfig config)
+        private void ApplicationThreadEntryPoint()
         {
             // start init stuff here
             string currentInput;
@@ -113,36 +50,11 @@ namespace CEC
                 // if user enters e
                 if (printCommandPrefix() && (currentInput = Console.ReadLine()).Length > 0)
                 {
-                    if (!resetConsoleColor() || !readCommand(currentInput.ToCharArray()))
-                        printError("Your command was not vaild.", "Please review your command and try again: " + currentInput + ";");
+                    resetConsoleColor();
+                    runEncrytion(currentInput);
                 }
         }
-
-        /// <summary>
-        /// Prints a error to console for user to read.
-        /// </summary>
-        /// <param name="cmdEr"></param>
-        private void printError(params string[] extras)
-        {
-            ConsoleColor oldColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("== An Error has occured ==\n");
-
-            IEnumerable<int> errors = Enumerable.Range(0, extras.Length);
-
-            foreach (var cur in errors)
-            {
-                Console.WriteLine("== Error #{0} ==", cur);
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.WriteLine("{0}", extras[cur]);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("== End Error #{0} ==\n", cur);
-            }
-
-            Console.WriteLine("\n== End Error(s) ==");
-            Console.ForegroundColor = oldColor;
-        }
-
+        
         /// <summary>
         /// Resets the console color to the default console color.
         /// </summary>
@@ -162,7 +74,7 @@ namespace CEC
         private bool printCommandPrefix()
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("Command: ");
+            Console.Write("Text to encrypt: ");
             Console.ForegroundColor = ConsoleColor.Magenta;
             return true;
         }
@@ -172,33 +84,45 @@ namespace CEC
         /// 
         /// if command is vaild / exists return true;
         /// </summary>
-        /// <param name="cmd"></param>
-        private bool readCommand(char[] cmd)
+        /// <param name="textToEncrypt"></param>
+        private bool runEncrytion(string textToEncrypt)
         {
-            Console.WriteLine("== Reading command ==");
-            return new HomeShellCommandCompiler(cmd).compileAs<HomeShellCommandHandler>(new HomeShellCommandHandler());
-            Console.WriteLine("== Finshedd Reading command ==");
-            return false;
-        }
-
-        /// <summary>
-        /// Creates a new CEC application with no configurations
-        /// </summary>
-        internal CECApplication() : this(CECApplicationConfig.DEFAULT)
-        {
-        }
-
-        /// <summary>
-        /// Ends Application
-        /// </summary>
-        public void dispose(int exitCode)
-        {
-
+            Console.WriteLine(" == Start == \n");
+            string encryptedText;
+            bool decy_text;
+            Console.WriteLine("Encrypting text: {0}\n", textToEncrypt);
+            Console.WriteLine("Encrpyted text: {0}\n", encryptedText = TextEncryptionUtil.getEncryptedText(textToEncrypt));
+            Console.WriteLine("Would you like to decrypt the string: {0}, y = yes, any other\n key for no.\n", encryptedText);
+            if (decy_text = Console.ReadLine() == "y")
+                Console.WriteLine("Decrypted text: {0}\n", encryptedText);
+            Console.WriteLine(" == End == \n");
+            return true;
         }
     }
     #endregion
 
 
+    #region EncrytedText class
 
+    internal static class TextEncryptionUtil
+    {
+        internal static string getEncryptedText(string textToEncrypt)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Returns decypted version of the text
+        /// </summary>
+        /// <param name="en_txt"></param>
+        /// <returns></returns>
+        internal static string getDecryptedText(string textToDecrypt)
+        {
+            return null;
+        } 
+
+    }
+
+    #endregion
 
 }

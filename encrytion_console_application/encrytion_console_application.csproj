@@ -7,7 +7,7 @@
     <ProjectGuid>{8D3BF9B3-EBFD-47FE-8B20-6830728CF44D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>encrytion_console_application</RootNamespace>
+    <RootNamespace>CEC</RootNamespace>
     <AssemblyName>encrytion_console_application</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,20 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CECApplication.cs" />
-    <Compile Include="CECApplicationConfig.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="CommandCompiler.cs" />
-    <Compile Include="CommandElement.cs" />
-    <Compile Include="CommandHandler.cs" />
-    <Compile Include="HomeShellCommand.cs" />
-    <Compile Include="HomeShellCommandCompiler.cs" />
-    <Compile Include="HomeShellCommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
