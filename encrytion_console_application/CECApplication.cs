@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Security;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace CEC
 {
@@ -106,9 +109,58 @@ namespace CEC
 
     internal static class TextEncryptionUtil
     {
+
         internal static string getEncryptedText(string textToEncrypt)
         {
-            return null;
+            // buffer filter
+            const int BINARY_BUFFER_FILTER = 0xff00000;
+
+            // number of bits to shift.
+            const int BINARY_BUFFER_FILTER_RIGHT_BIT_SHIFT = 0;
+
+            // the encrypted text buffer in byte form
+            byte[] byteBuffer;
+
+            // the final buffer for final encryption string.
+            int[] scrambled_binary_buffer;
+
+            // create hashing apgorithm instance
+            HashAlgorithm hash = HashAlgorithm.Create();
+            // init hash
+            hash.Initialize();
+
+            // create a string builder since im going to be hashing with differernt HashAlgorithms and i need to append stuff 
+            StringBuilder hashedStringBuilder = new StringBuilder();
+
+            // compute the hash
+            hash.ComputeHash(byteBuffer = Encoding.ASCII.GetBytes(textToEncrypt.ToCharArray()));
+            
+            // setup scrambed byte buffer
+            scrambled_binary_buffer = new int[byteBuffer.Length * 2];
+
+            // fill buffer with random nu
+
+            Random rnd = new Random();
+            
+            // fill scrambled binary buffer with random binary numbers ranging from 0 to 255
+            for (int i = 0; i < scrambled_binary_buffer.Length; i++)
+                // add binary to buffer
+                scrambled_binary_buffer[i] = 0x000000;
+            
+
+            for (int i = 0; i < scrambled_binary_buffer.Length; i++)
+            {
+                // grab first values of binary number.
+                scrambled_binary_buffer[i] &= BINARY_BUFFER_FILTER >> BINARY_BUFFER_FILTER_RIGHT_BIT_SHIFT;
+                Console.WriteLine("{0}", scrambled_binary_buffer[i]);
+            }
+            
+
+            // TEMP: readout the current hash
+            //Console.WriteLine("Computed hash: {0}", t);
+            // releaase memory
+            hash.Clear();
+            return hashedStringBuilder.ToString();
         }
 
         /// <summary>
