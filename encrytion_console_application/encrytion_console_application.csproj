@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="CECApplication.cs" />
     <Compile Include="CECApplicationConfig.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="CommandCompiler.cs" />
+    <Compile Include="CommandElement.cs" />
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

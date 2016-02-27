@@ -5,10 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
+using CEC.CommandUtils;
+
 namespace CEC
 {
     
     #region core application internal class
+    /// <summary>
+    /// Core class and also the input handler.
+    /// </summary>
     internal class CECApplication
     {
         private static CECApplication _singleton;
@@ -109,7 +114,7 @@ namespace CEC
                 if (printCommandPrefix() && (currentInput = Console.ReadLine()).Length > 0)
                 {
                     if (!resetConsoleColor() || !readCommand(currentInput.ToCharArray()))
-                        printError("Error could not Proccess your command");
+                        printError("Your command was not vaild.", "Please review your command and try again: " + currentInput + ";");
                 }
         }
 
@@ -117,9 +122,25 @@ namespace CEC
         /// Prints a error to console for user to read.
         /// </summary>
         /// <param name="cmdEr"></param>
-        private void printError(string cmdEr)
+        private void printError(params string[] extras)
         {
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("== An Error has occured ==\n");
 
+            IEnumerable<int> errors = Enumerable.Range(0, extras.Length);
+
+            foreach (var cur in errors)
+            {
+                Console.WriteLine("== Error #{0} ==", cur);
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("{0}", extras[cur]);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("== End Error #{0} ==\n", cur);
+            }
+
+            Console.WriteLine("\n== End Error(s) ==");
+            Console.ForegroundColor = oldColor;
         }
 
         /// <summary>
@@ -138,11 +159,11 @@ namespace CEC
         /// Prints Command: or what ever you want to be your command prefix
         /// </summary>
         /// <returns></returns>
-        private Boolean printCommandPrefix()
+        private bool printCommandPrefix()
         {
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Command: ");
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Magenta;
             return true;
         }
 
@@ -154,9 +175,10 @@ namespace CEC
         /// <param name="command"></param>
         private bool readCommand(char[] command)
         {
-            Console.WriteLine("Reading command");
-            
+            Console.WriteLine("== Reading command ==");
 
+
+            Console.WriteLine("== Finshedd Reading command ==");
             return false;
         }
 
@@ -176,4 +198,8 @@ namespace CEC
         }
     }
     #endregion
+
+
+
+
 }
