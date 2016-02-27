@@ -112,55 +112,43 @@ namespace CEC
 
         internal static string getEncryptedText(string textToEncrypt)
         {
-            // buffer filter
-            const int BINARY_BUFFER_FILTER = 0xff00000;
-
-            // number of bits to shift.
-            const int BINARY_BUFFER_FILTER_RIGHT_BIT_SHIFT = 0;
-
-            // the encrypted text buffer in byte form
-            byte[] byteBuffer;
-
-            // the final buffer for final encryption string.
-            int[] scrambled_binary_buffer;
-
-            // create hashing apgorithm instance
-            HashAlgorithm hash = HashAlgorithm.Create();
-            // init hash
-            hash.Initialize();
-
-            // create a string builder since im going to be hashing with differernt HashAlgorithms and i need to append stuff 
-            StringBuilder hashedStringBuilder = new StringBuilder();
-
-            // compute the hash
-            hash.ComputeHash(byteBuffer = Encoding.ASCII.GetBytes(textToEncrypt.ToCharArray()));
-            
-            // setup scrambed byte buffer
-            scrambled_binary_buffer = new int[byteBuffer.Length * 2];
-
-            // fill buffer with random nu
-
-            Random rnd = new Random();
-            
-            // fill scrambled binary buffer with random binary numbers ranging from 0 to 255
-            for (int i = 0; i < scrambled_binary_buffer.Length; i++)
-                // add binary to buffer
-                scrambled_binary_buffer[i] = 0x000000;
-            
-
-            for (int i = 0; i < scrambled_binary_buffer.Length; i++)
+            byte[] encryted;
+            using (AesCryptoServiceProvider ase = new AesCryptoServiceProvider())
             {
-                // grab first values of binary number.
-                scrambled_binary_buffer[i] &= BINARY_BUFFER_FILTER >> BINARY_BUFFER_FILTER_RIGHT_BIT_SHIFT;
-                Console.WriteLine("{0}", scrambled_binary_buffer[i]);
+                encryted = encryptFromString(textToEncrypt, ase.Key, ase.IV);
             }
-            
 
-            // TEMP: readout the current hash
-            //Console.WriteLine("Computed hash: {0}", t);
-            // releaase memory
-            hash.Clear();
-            return hashedStringBuilder.ToString();
+            return Encoding.ASCII.GetString(encryted);
+        }
+
+        private static byte[] encryptFromString(string plain, byte[] key, byte[] IV)
+        {
+            byte[] encryped;
+
+            using(AesCryptoServiceProvider aseAlg = new AesCryptoServiceProvider())
+            {
+                aseAlg.Key = key;
+                aseAlg.IV = IV;
+
+                ICryptoTransform encryptor = aseAlg.CreateEncryptor(key, IV);
+
+                using(MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using(CryptoStream csEn = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using(StreamWriter swEn = new StreamWriter(csEn))
+                        {
+                            // wrte stuff to a stream
+                            swEn.Write(plain);
+                        }
+                        encryped = msEncrypt.ToArray();
+                    }
+                }
+
+
+            }
+
+            return encryped;
         }
 
         /// <summary>
