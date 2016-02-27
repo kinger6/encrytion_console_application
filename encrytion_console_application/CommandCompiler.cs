@@ -13,10 +13,11 @@ namespace CEC.CommandUtils
     /// <typeparam name="T">The generic type for this compiled command.(should be of type Command)</typeparam>
     internal abstract class CommandCompiler
     {
+        protected char[] command;
 
         internal CommandCompiler(char[] commandData)
         {
-
+            this.command = commandData;
         }
 
         /// <summary>
@@ -27,14 +28,8 @@ namespace CEC.CommandUtils
         /// the command handler thats supplyed as a generic.
         /// </summary>
         /// <typeparam name="T">Command Handler</typeparam>
-        internal bool compileAs<T>(T handler) where T : CommandHandler
-        {
-            Command cmd;
-
-
-            // Pass to the command Handler, the handler will return weather or not the command went through.
-            return handler.handle<CommandCompiler>(this, cmd = null);
-        }
+        /// <typeparam name="E">The Command Type</typeparam>
+        internal abstract bool compileAs<T, E>(T handler) where T : CommandHandler where E : Command;
 
     }
     #endregion

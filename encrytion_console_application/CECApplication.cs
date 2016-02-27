@@ -172,12 +172,11 @@ namespace CEC
         /// 
         /// if command is vaild / exists return true;
         /// </summary>
-        /// <param name="command"></param>
-        private bool readCommand(char[] command)
+        /// <param name="cmd"></param>
+        private bool readCommand(char[] cmd)
         {
             Console.WriteLine("== Reading command ==");
-
-
+            return new HomeShellCommandCompiler(cmd).compileAs<HomeShellCommandHandler>(new HomeShellCommandHandler());
             Console.WriteLine("== Finshedd Reading command ==");
             return false;
         }

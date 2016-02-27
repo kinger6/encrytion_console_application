@@ -47,6 +47,9 @@
     <Compile Include="CommandCompiler.cs" />
     <Compile Include="CommandElement.cs" />
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="HomeShellCommand.cs" />
+    <Compile Include="HomeShellCommandCompiler.cs" />
+    <Compile Include="HomeShellCommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
