@@ -106,17 +106,58 @@ namespace CEC
             // thread loop
             while (running = true)
                 // if user enters e
-                if ((currentInput = Console.ReadLine()).Length > 0)
-                    readCommand(currentInput.ToCharArray());
+                if (printCommandPrefix() && (currentInput = Console.ReadLine()).Length > 0)
+                {
+                    if (!resetConsoleColor() || !readCommand(currentInput.ToCharArray()))
+                        printError("Error could not Proccess your command");
+                }
+        }
+
+        /// <summary>
+        /// Prints a error to console for user to read.
+        /// </summary>
+        /// <param name="cmdEr"></param>
+        private void printError(string cmdEr)
+        {
+
+        }
+
+        /// <summary>
+        /// Resets the console color to the default console color.
+        /// </summary>
+        /// <returns></returns>
+        private bool resetConsoleColor()
+        {
+            if ((Console.ForegroundColor = ConsoleColor.DarkCyan) == ConsoleColor.DarkCyan)
+                return true;
+            return false;        
+        }
+
+
+        /// <summary>
+        /// Prints Command: or what ever you want to be your command prefix
+        /// </summary>
+        /// <returns></returns>
+        private Boolean printCommandPrefix()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Command: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            return true;
         }
 
         /// <summary>
         /// Constructs a command from a char array
+        /// 
+        /// if command is vaild / exists return true;
         /// </summary>
         /// <param name="command"></param>
-        private void readCommand(char[] command)
+        private bool readCommand(char[] command)
         {
+            Console.WriteLine("Reading command");
+            
 
+            return false;
         }
 
         /// <summary>
