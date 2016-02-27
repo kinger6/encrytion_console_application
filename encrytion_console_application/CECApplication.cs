@@ -7,9 +7,56 @@ using System.Threading;
 
 namespace CEC
 {
+    
+    #region core application internal class
     internal class CECApplication
     {
         private static CECApplication _singleton;
+
+        /// <summary>
+        /// User defined variables via command line.
+        /// this will be useful in future when i get command's working i will allow users to refer 
+        /// to these so they can sort of save commands.
+        /// </summary>
+        private Dictionary<string, object> _userDefined = new Dictionary<string, object>();
+
+        /// <summary>
+        /// Add a command or value to the _userDefined Dictionary.
+        /// 
+        /// Reason it returns the value you inputed is because it allows you to do more things in one expression.
+        /// For example with the unity game engine:
+        /// if you wanted a local ref to a componenet you just added you could do
+        /// =====================================================================
+        /// this.controller = gameobject.addComponent<PlayerController>();
+        /// 
+        /// rather then doing 
+        /// 
+        /// gameobject.addComponent<PlayerController>();
+        /// this.controller = gameobject.getComponent<PlayerController>();
+        /// =====================================================================
+        /// 
+        /// See what i mean? its alot more efficient and easy to read.
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="valueOrCommand"></param>
+        internal T AddUserDefined<T>(string key, T valueOrCommand) where T : class
+        {
+            _userDefined.Add(key, valueOrCommand);
+            return valueOrCommand;
+        }
+
+        /// <summary>
+        /// Get from the _user defined dictionary
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        internal T GetUserDefined<T>(string key) where T : class
+        {
+            return _userDefined[key] as T;
+        }
 
         private Thread CECMainThread = null;
 
@@ -61,8 +108,6 @@ namespace CEC
                 // if user enters e
                 if ((currentInput = Console.ReadLine()).Length > 0)
                     readCommand(currentInput.ToCharArray());
-            CECMainThread.Join();
-
         }
 
         /// <summary>
@@ -89,4 +134,5 @@ namespace CEC
 
         }
     }
+    #endregion
 }
