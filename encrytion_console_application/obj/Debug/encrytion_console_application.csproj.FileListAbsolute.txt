@@ -1,0 +1,9 @@
+C:\Users\Joseph Maxim\AppData\Local\Temporary Projects\encrytion_console_application\bin\Debug\encrytion_console_application.exe.config
+C:\Users\Joseph Maxim\AppData\Local\Temporary Projects\encrytion_console_application\bin\Debug\encrytion_console_application.exe
+C:\Users\Joseph Maxim\AppData\Local\Temporary Projects\encrytion_console_application\bin\Debug\encrytion_console_application.pdb
+C:\Users\Joseph Maxim\AppData\Local\Temporary Projects\encrytion_console_application\obj\Debug\encrytion_console_application.csprojResolveAssemblyReference.cache
+C:\Users\Joseph Maxim\AppData\Local\Temporary Projects\encrytion_console_application\obj\Debug\encrytion_console_application.exe
+C:\Users\Joseph Maxim\AppData\Local\Temporary Projects\encrytion_console_application\obj\Debug\encrytion_console_application.pdb
+C:\Users\Joseph Maxim\Documents\gitrepo\encrytion_console_application\encrytion_console_application\encrytion_console_application\bin\Debug\encrytion_console_application.exe.config
+C:\Users\Joseph Maxim\Documents\gitrepo\encrytion_console_application\encrytion_console_application\encrytion_console_application\obj\Debug\encrytion_console_application.exe
+C:\Users\Joseph Maxim\Documents\gitrepo\encrytion_console_application\encrytion_console_application\encrytion_console_application\obj\Debug\encrytion_console_application.pdb
