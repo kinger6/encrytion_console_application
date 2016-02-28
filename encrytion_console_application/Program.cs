@@ -32,9 +32,12 @@ namespace CEC
                 Console.Write("Please enter a text to encrypt, type \"exit\" to close: ");
 
                 strUserInput = Console.ReadLine(); // Grabs data from user
-                
+
                 //Convertion Begins Here 
-                Console.WriteLine(strOutput);
+
+                Encrypt(ref strUserInput);
+
+                Console.WriteLine(strUserInput);
 
                 do
                 {
@@ -54,5 +57,35 @@ namespace CEC
 
             Environment.Exit(0);
         }
+
+        /// <summary>
+        /// Ref outs a encrypted version of the string
+        /// </summary>
+        /// <param name="EncryptedValue"></param>
+        private static void Encrypt(ref string EncryptedValue)
+        {
+            // convert to bytes
+            byte[] data = Encoding.ASCII.GetBytes(EncryptedValue.ToCharArray());
+
+            // final hex value
+            string hexData;
+
+            // get a string builder
+            StringBuilder hex = new StringBuilder();
+
+            // loop through all bytes of data that the value contatins
+            foreach (byte b in data)
+                hex.AppendFormat("{0:x2}", b);
+            hexData = hex.ToString();
+
+            // convert hex to binary
+
+            string binarystring = String.Join(String.Empty, hexData.Select(c => Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')));
+
+
+            Console.WriteLine(binarystring);
+
+        }
+
     }
 }
