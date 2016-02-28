@@ -34,7 +34,7 @@ namespace CEC
                 strUserInput = Console.ReadLine(); // Grabs data from user
                 
                 //Convertion Begins Here 
-                Console.WriteLine(strUserInput);
+                Console.WriteLine(strOutput);
 
                 do
                 {
